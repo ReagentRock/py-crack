@@ -30,17 +30,51 @@ def checkMode(test):
     else:
         return False
 
+def loading():
+    global notcomplete
+
+    i = 0
+    while True:
+        time.sleep(0.1)
+        sys.stdout.flush()
+        i += 1
+
+    print("\n")
+
+def bruteForceCheck(password_len=4):
+    N = 100000
+    A=list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$%^&*~?")
+    for i in range(N):
+        l ="".join(np.random.choice(A, password_len).tolist()).encode('utf-8')
+
+    if checkMode("MD5"):
+        hashLine = hashlib.md5(l)
+        check = hashLine.hexdigest()
+    elif checkMode("SHA-256"):
+        hashLine = hashlib.sha256(l)
+        check = hashLine.hexdigest()
+    elif checkMode("BCrypt"):
+        salt = bcrypt.gensalt()
+        check = bcrypt.hashpw(l, salt) 
+    if(check == pw):
+#            t.terminate()
+            print("--- Password is :",line.rstrip(),"---")
+            quit()
+        
+#    t.terminate()
+    print("\n")
+    print("Password Not Found in Brute Force")
+
 # Remove 1st argument from the
 # list of command line arguments
 argumentList = sys.argv[2:]
 
-options = "pmsbd:la"
+options = "msbd:c"
 
 pw = sys.argv[1]
-if pw in ['-p','-m','-s', '-b', '-d', '-l', '-a']:
+if pw in ['-m','-s', '-b', '-d', '-c']:
     print("No Password Given To Crack!")
     quit()
-
 
 
 try:
@@ -62,10 +96,14 @@ try:
             
         elif currentArgument in ("-b"):
             setAttack("Brute Force", "")
+            bruteForceCheck()
+            quit()
         
         elif currentArgument in ("-d"):
             #print ("Dictionary file Name: ", sys.argv[sys.argv.index("-d")+1])  
             setAttack("Dictionary", sys.argv[sys.argv.index("-d")+1])
+except Exception as e:
+    sys.exit(e)
         
 count = 0
 
@@ -87,8 +125,8 @@ if(attack == "Dictionary"):
             hashLine = hashlib.sha256(l)
             check = hashLine.hexdigest()
         elif checkMode("BCrypt"):
-            hashline = bcrypt.gensalt()
-            check = bcrypt.hashpw(bytes, salt)
+            salt = bcrypt.gensalt()
+            check = bcrypt.hashpw(l, salt)
         
         count = count + 1
         if(check == pw):
@@ -98,26 +136,3 @@ if(attack == "Dictionary"):
 print("\n")
 print("Password Not Found in Dictionary")
 
-if(attack == "Brute Force"):
-    N = 100000
-    A=list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$%^&*~?")
-    password_len=int(pw.len())
-    for i in range(N):
-        password="".join(np.random.choice(A, password_len).tolist())
-    if checkMode("MD5"):
-        hashLine = hashlib.md5(l)
-        check = hashLine.hexdigest()
-    elif checkMode("SHA-256"):
-        hashLine = hashlib.sha256(l)
-        check = hashLine.hexdigest()
-    elif checkMode("BCrypt"):
-        hashline = bcrypt.gensalt()
-        check = bcrypt.hashpw(bytes, salt)    
-    if(check == pw):
-            t.terminate()
-            print("--- Password is :",line.rstrip(),"---")
-            quit()
-    
-t.terminate()
-print("\n")
-print("Password Not Found in Brute Force")
