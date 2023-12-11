@@ -2,4 +2,10 @@ PyCrack: password crack through brute-force
 
 Author: Elijah Wang
 
+-m = MD5 Hashed
+-s = Sha256 Hashed
+-c = BCrypt Hashed
+
+-b = Brute Force
+-d = Dictionary Attack
 
