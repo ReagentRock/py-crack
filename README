@@ -2,6 +2,8 @@ PyCrack: password crack through brute-force
 
 Author: Elijah Wang
 
+Dependencies: pip install -r requirement.txt
+
 -m = MD5 Hashed
 -s = Sha256 Hashed
 -c = BCrypt Hashed
