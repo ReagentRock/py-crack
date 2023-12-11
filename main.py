@@ -4,17 +4,16 @@ mode = ""
 modePrint = ""
 attack = ""
 attackPrint = ""
-
 dictFile = ""
 dictPrint = ""
 
-
+#determines the hashe that is checked
 def setMode(modeSet):
     global mode, modePrint
     mode = modeSet
     modePrint = ("Mode : %s" % mode)
     
-
+#determines the method of password cracking
 def setAttack(attackSet, file):
     global attack, dictFile, dictPrint, attackPrint
     attack = attackSet
@@ -22,7 +21,7 @@ def setAttack(attackSet, file):
     if(attack == "Dictionary"):
         dictFile = file
         dictPrint = ("Dictionary File : %s" % dictFile)
-
+#calls the method of password cracking
 def checkMode(test):
     global mode
     if test == mode:
@@ -58,11 +57,8 @@ def bruteForceCheck(password_len=4):
         check = bcrypt.hashpw(l, salt) 
         print(check)
     if(check == pw):
-#            t.terminate()
             print("--- Password is :",line.rstrip(),"---")
             quit()
-        
-#    t.terminate()
     print("\n")
     print("Password Not Found in Brute Force")
 
@@ -103,16 +99,9 @@ for currentArgument, currentValue in arguments:
         #print ("Dictionary file Name: ", sys.argv[sys.argv.index("-d")+1])  
         setAttack("Dictionary", sys.argv[sys.argv.index("-d")+1])
        
-count = 0
-
-start_time = time.time()
-
-t = multiprocessing.Process(target=loading)
-
 if(attack == "Dictionary"):
     f = open(dictFile)
     
-    t.start()
     for line in f:
         l = line.rstrip().encode('utf-8')
 
@@ -126,9 +115,7 @@ if(attack == "Dictionary"):
             salt = bcrypt.gensalt()
             check = bcrypt.hashpw(l, salt)
         
-        count = count + 1
         if(check == pw):
-            t.terminate()
             print("--- Password is :",line.rstrip(),"---")
             quit()
 print("\n")
