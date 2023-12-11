@@ -7,7 +7,7 @@ attackPrint = ""
 dictFile = ""
 dictPrint = ""
 
-#determines the hashe that is checked
+#determines the hash that is checked
 def setMode(modeSet):
     global mode, modePrint
     mode = modeSet
@@ -39,7 +39,8 @@ def loading():
         i += 1
 
     print("\n")
-
+#brute forces a password of given length. If no input is given, length is
+#initialized as four.
 def bruteForceCheck(password_len=4):
     N = 100000
     A=list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$%^&*~?")
@@ -99,6 +100,7 @@ for currentArgument, currentValue in arguments:
         #print ("Dictionary file Name: ", sys.argv[sys.argv.index("-d")+1])  
         setAttack("Dictionary", sys.argv[sys.argv.index("-d")+1])
        
+#runs a dictionary attack using passList.txt
 if(attack == "Dictionary"):
     f = open(dictFile)
     
